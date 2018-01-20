@@ -1,0 +1,11 @@
+{
+    "value1": {
+        "typeName": "int",
+        "typeCheck": "Function: enforceDecorator",
+        "defaultValue": 0
+    },
+    "value2": {
+        "typeName": "string",
+        "typeCheck": "Function: enforceDecorator"
+    }
+}
