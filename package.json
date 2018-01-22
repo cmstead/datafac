@@ -17,9 +17,7 @@
     "url": "https://github.com/cmstead/datafac/issues"
   },
   "homepage": "https://github.com/cmstead/datafac#readme",
-  "dependencies": {
-    "signet": "^3.16.2"
-  },
+  "dependencies": {},
   "engines": {
     "node": ">=6.0.0"
   },
@@ -37,6 +35,7 @@
     "gulp-istanbul": "^1.1.1",
     "gulp-mocha": "^3.0.1",
     "mocha": "^3.4.1",
+    "signet": "^6.5.2",
     "sinon": "^2.2.0"
   }
 }

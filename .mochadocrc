@@ -1,0 +1,5 @@
+{
+    "projectName": "Datafac",
+    "files": "./test/**/*.test.js",
+    "dest": "./docs/"
+}

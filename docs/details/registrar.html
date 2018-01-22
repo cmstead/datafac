@@ -1,0 +1,266 @@
+<html>
+
+<head>
+    <title>Datafac -- Mochadoc Test Documentation</title>
+
+    <link rel="stylesheet" href="../assets/doc-style.css" media="screen">
+    <link rel="stylesheet" href="../assets/github-gist.css" media="screen">
+</head>
+
+<body>
+    <header>
+        <a href="../index.html"><span id="library-name">Datafac</span>
+        <span id="subtitle">Mochadoc-Generated Test Documents</span></a>
+    </header>
+
+    <div class="content">
+        <h1>registrar</h1>
+<div>
+    <a href="#" class="collapse-all collapse-link">Collapse All</a>
+</div>
+<ul>
+    <li class="describe-item">
+    <h3>register</h3>
+    <div><a href="#" class="describe-link collapse-link"></a></div>
+    <ul class="describe-collapsible shown">
+        <ul>
+    <li>
+        <strong>should register a type internally</strong>
+    </li>
+    <li>File location: <span class="filename">./test/registrar.test.js</span></li>
+    <li class="code-sample-wrapper">
+        <div class="code-expand">
+            <a href="#" class="collapse-link"></a>
+        </div>
+        <pre class="code-sample">
+            <code>
+        function () {
+            const dataDef &#x3D; {
+                value1: {
+                    typeName: &#x27;int&#x27;,
+                    defaultValue: 0
+                },
+                value2: {
+                    typeName: &#x27;string&#x27;,
+                    defaultValue: &#x27;&#x27;
+                }
+            };
+            registrar.register(&#x27;testObj&#x27;, dataDef);
+
+            const definition &#x3D; registrar.getDefinition(&#x27;testObj&#x27;);
+
+            this.verify(prettyJson(definition));
+        }
+            </code>
+        </pre>
+    </li>
+</ul>
+<ul>
+    <li>
+        <strong>should throw an error if the data definition is invalid</strong>
+    </li>
+    <li>File location: <span class="filename">./test/registrar.test.js</span></li>
+    <li class="code-sample-wrapper">
+        <div class="code-expand">
+            <a href="#" class="collapse-link"></a>
+        </div>
+        <pre class="code-sample">
+            <code>
+        function() {
+            const dataDef &#x3D; {
+                value: {}
+            };
+
+            assert.throws(
+                registrar.register.bind(null, &#x27;foo&#x27;, dataDef), 
+                &#x60;Unable to register &#x27;foo&#x27;. Definition is invalid, are all types defined? ${JSON.stringify(dataDef, null, 4)}&#x60;
+            );
+        }
+            </code>
+        </pre>
+    </li>
+</ul>
+<ul>
+    <li>
+        <strong>should throw an error if the data definition is already registered</strong>
+    </li>
+    <li>File location: <span class="filename">./test/registrar.test.js</span></li>
+    <li class="code-sample-wrapper">
+        <div class="code-expand">
+            <a href="#" class="collapse-link"></a>
+        </div>
+        <pre class="code-sample">
+            <code>
+        function() {
+            const dataDef &#x3D; {
+                value: {
+                    typeName: &#x27;string&#x27;,
+                    defaultValue: &#x27;&#x27;
+                }
+            };
+
+            registrar.register(&#x27;test1&#x27;, dataDef);
+
+            assert.throws(
+                registrar.register.bind(null, &#x27;test1&#x27;, dataDef), 
+                &#x60;Cannot register &#x27;test1&#x27;, a definition of that name already exists.&#x60;
+            );
+        }
+            </code>
+        </pre>
+    </li>
+</ul>
+<ul>
+    <li>
+        <strong>should throw an error if a default value is unacceptable</strong>
+    </li>
+    <li>File location: <span class="filename">./test/registrar.test.js</span></li>
+    <li class="code-sample-wrapper">
+        <div class="code-expand">
+            <a href="#" class="collapse-link"></a>
+        </div>
+        <pre class="code-sample">
+            <code>
+        function() {
+            const dataDef &#x3D; {
+                test: {
+                    typeName: &#x27;string&#x27;,
+                    defaultValue: 10
+                }
+            };
+
+            assert.throws(registrar.register.bind(null, &#x27;badDef&#x27;, dataDef));
+        }
+            </code>
+        </pre>
+    </li>
+</ul>
+<ul>
+    <li>
+        <strong>should throw an error if type is not registered and has no default value</strong>
+    </li>
+    <li>File location: <span class="filename">./test/registrar.test.js</span></li>
+    <li class="code-sample-wrapper">
+        <div class="code-expand">
+            <a href="#" class="collapse-link"></a>
+        </div>
+        <pre class="code-sample">
+            <code>
+        function() {
+            const dataDef &#x3D; {
+                test: {
+                    typeName: &#x27;string&#x27;
+                }
+            };
+
+            assert.throws(registrar.register.bind(null, &#x27;badDef&#x27;, dataDef));
+        }
+            </code>
+        </pre>
+    </li>
+</ul>
+    </ul>
+</li>
+<li class="describe-item">
+    <h3>getDefinition</h3>
+    <div><a href="#" class="describe-link collapse-link"></a></div>
+    <ul class="describe-collapsible shown">
+        <ul>
+    <li>
+        <strong>should return a definition when called by name</strong>
+    </li>
+    <li>File location: <span class="filename">./test/registrar.test.js</span></li>
+    <li class="code-sample-wrapper">
+        <div class="code-expand">
+            <a href="#" class="collapse-link"></a>
+        </div>
+        <pre class="code-sample">
+            <code>
+        function() {
+            registrar.register(&#x27;testType&#x27;, {
+                test1: {
+                    typeName: &#x27;string&#x27;,
+                    defaultValue: &#x27;&#x27; 
+                }
+            });
+
+            this.verify(prettyJson(registrar.getDefinition(&#x27;testType&#x27;)));
+        }
+            </code>
+        </pre>
+    </li>
+</ul>
+<ul>
+    <li>
+        <strong>should throw an error if the type does not exist</strong>
+    </li>
+    <li>File location: <span class="filename">./test/registrar.test.js</span></li>
+    <li class="code-sample-wrapper">
+        <div class="code-expand">
+            <a href="#" class="collapse-link"></a>
+        </div>
+        <pre class="code-sample">
+            <code>
+        function() {
+            assert.throws(
+                registrar.getDefinition.bind(this, &#x27;foo&#x27;),
+                &#x60;No data definition, foo, exists.&#x60;)
+        }
+            </code>
+        </pre>
+    </li>
+</ul>
+    </ul>
+</li>
+<li class="describe-item">
+    <h3>isRegistered</h3>
+    <div><a href="#" class="describe-link collapse-link"></a></div>
+    <ul class="describe-collapsible shown">
+        <ul>
+    <li>
+        <strong>should return true if type definition is registered</strong>
+    </li>
+    <li>File location: <span class="filename">./test/registrar.test.js</span></li>
+    <li class="code-sample-wrapper">
+        <div class="code-expand">
+            <a href="#" class="collapse-link"></a>
+        </div>
+        <pre class="code-sample">
+            <code>
+        function() {
+            registrar.register(&#x27;test1&#x27;, {});
+            assert.isTrue(registrar.isRegistered(&#x27;test1&#x27;));
+        }
+            </code>
+        </pre>
+    </li>
+</ul>
+<ul>
+    <li>
+        <strong>should return false if definition is not registered</strong>
+    </li>
+    <li>File location: <span class="filename">./test/registrar.test.js</span></li>
+    <li class="code-sample-wrapper">
+        <div class="code-expand">
+            <a href="#" class="collapse-link"></a>
+        </div>
+        <pre class="code-sample">
+            <code>
+        function() {
+            assert.isFalse(registrar.isRegistered(&#x27;test1&#x27;));
+        }
+            </code>
+        </pre>
+    </li>
+</ul>
+    </ul>
+</li>
+</ul>
+    </div>
+
+    <script src="../assets/code-collapse.js"></script>
+    <script src="../assets/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</body>
+
+</html>

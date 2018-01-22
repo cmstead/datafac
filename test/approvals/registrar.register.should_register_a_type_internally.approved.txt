@@ -6,6 +6,7 @@
     },
     "value2": {
         "typeName": "string",
-        "typeCheck": "Function: enforceDecorator"
+        "typeCheck": "Function: enforceDecorator",
+        "defaultValue": ""
     }
 }

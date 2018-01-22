@@ -1,0 +1,7 @@
+{
+    "test1": {
+        "typeName": "string",
+        "typeCheck": "Function: enforceDecorator",
+        "defaultValue": ""
+    }
+}

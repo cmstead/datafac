@@ -7,12 +7,12 @@ const assert = require('chai').assert;
 
 const prettyJson = require('./test-utils/prettyJson');
 
-const signet = require('signet')();
 
 describe('registrar', function () {
     let registrar;
-
+    
     beforeEach(function () {
+        const signet = require('signet')();
         registrar = require('../bin/registrar')(signet);
     });
 
@@ -25,7 +25,8 @@ describe('registrar', function () {
                     defaultValue: 0
                 },
                 value2: {
-                    typeName: 'string'
+                    typeName: 'string',
+                    defaultValue: ''
                 }
             };
             registrar.register('testObj', dataDef);
@@ -49,7 +50,8 @@ describe('registrar', function () {
         it('should throw an error if the data definition is already registered', function() {
             const dataDef = {
                 value: {
-                    typeName: 'string'
+                    typeName: 'string',
+                    defaultValue: ''
                 }
             };
 
@@ -59,6 +61,61 @@ describe('registrar', function () {
                 registrar.register.bind(null, 'test1', dataDef), 
                 `Cannot register 'test1', a definition of that name already exists.`
             );
+        });
+
+        it('should throw an error if a default value is unacceptable', function() {
+            const dataDef = {
+                test: {
+                    typeName: 'string',
+                    defaultValue: 10
+                }
+            };
+
+            assert.throws(registrar.register.bind(null, 'badDef', dataDef));
+        });
+
+        it('should throw an error if type is not registered and has no default value', function() {
+            const dataDef = {
+                test: {
+                    typeName: 'string'
+                }
+            };
+
+            assert.throws(registrar.register.bind(null, 'badDef', dataDef));
+        });
+
+    });
+
+    describe('getDefinition', function() {
+        
+        it('should return a definition when called by name', function() {
+            registrar.register('testType', {
+                test1: {
+                    typeName: 'string',
+                    defaultValue: '' 
+                }
+            });
+
+            this.verify(prettyJson(registrar.getDefinition('testType')));
+        });
+
+        it('should throw an error if the type does not exist', function() {
+            assert.throws(
+                registrar.getDefinition.bind(this, 'foo'),
+                `No data definition, foo, exists.`)
+        });
+
+    });
+
+    describe('isRegistered', function() {
+        
+        it('should return true if type definition is registered', function() {
+            registrar.register('test1', {});
+            assert.isTrue(registrar.isRegistered('test1'));
+        });
+
+        it('should return false if definition is not registered', function() {
+            assert.isFalse(registrar.isRegistered('test1'));
         });
 
     });

@@ -42,20 +42,42 @@
             }, {});
     }
 
+
+    const isUndefined = signet.isTypeOf('undefined');
+
+    function defaultOrThrow(typeName, defaultValue) {
+        const verifyValue = signet.verifyValueType(typeName);
+
+        if(isUndefined(registry[typeName]) && isUndefined(defaultValue)) {
+            throw new Error(`Type ${typeName} must have a default value`);
+        }
+
+        return !isUndefined(defaultValue)
+            ? verifyValue(defaultValue)
+            : undefined;
+    }
+
+    function buildDataDefProperty(definition) {
+        return function (dataDefinition, key) {
+            const propertyDef = definition[key];
+            const typeName = propertyDef.typeName;
+            const verifyValue = signet.verifyValueType(typeName);
+            const defaultValue = propertyDef.defaultValue;
+
+            dataDefinition[key] = {
+                typeName: typeName,
+                typeCheck: verifyValue,
+                defaultValue: defaultOrThrow(typeName, defaultValue)
+            };
+
+            return dataDefinition;
+        }
+    }
+
     function buildDataDefinition(definition) {
         return Object
             .keys(definition)
-            .reduce(function (dataDefinition, key) {
-                const propertyDef = definition[key];
-
-                dataDefinition[key] = {
-                    typeName: propertyDef.typeName,
-                    typeCheck: signet.isTypeOf(propertyDef.typeName),
-                    defaultValue: propertyDef.defaultValue
-                };
-
-                return dataDefinition;
-            }, {});
+            .reduce(buildDataDefProperty(definition), {});
     }
 
     function registerDuckType(definitionName, definition) {
@@ -93,8 +115,14 @@
     }
 
     return {
-        register: registerDefinition,
-        getDefinition: getDefinition,
-        isRegistered: isRegisteredDefinition
+        register: signet.enforce(
+            'definitionName:string, definition:object => undefined',
+            registerDefinition),
+        getDefinition: signet.enforce(
+            '* => definition:object',
+            getDefinition),
+        isRegistered: signet.enforce(
+            'definitionName:string => boolean',
+            isRegisteredDefinition)
     };
 });
