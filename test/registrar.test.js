@@ -36,6 +36,22 @@ describe('registrar', function () {
             this.verify(prettyJson(definition));
         });
 
+        it('should prefer a data constructor over data', function() {
+            const dataDef = {
+                value1: {
+                    typeName: 'string',
+                    propertyConstructor: () => 'I am a string',
+                    defaultValue: 'oh noes!!!'
+                }
+            };
+
+            registrar.register('testObj', dataDef);
+
+            const definition = registrar.getDefinition('testObj');
+
+            this.verify(prettyJson(definition));
+        });
+
         it('should throw an error if the data definition is invalid', function() {
             const dataDef = {
                 value: {}

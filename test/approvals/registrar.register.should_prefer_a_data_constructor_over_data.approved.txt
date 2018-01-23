@@ -1,0 +1,6 @@
+{
+    "value1": {
+        "typeName": "string",
+        "propertyConstructor": "Function: propertyConstructor"
+    }
+}

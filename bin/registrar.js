@@ -25,59 +25,86 @@
         defaultValue: '*'
     });
 
+    function reduce(values, action, initialValue) {
+        let result = initialValue;
+
+        for (let i = 0; i < values.length; i++) {
+            result = action(result, values[i]);
+        }
+
+        return result;
+    }
+
     function isValidDefinition(definition) {
-        return Object
-            .keys(definition)
-            .reduce(function (result, key) {
-                return result && isPropertyDef(definition[key]);
-            }, true);
+        const objKeys = Object.keys(definition);
+        function checkPropertyDef(result, key) {
+            return result && isPropertyDef(definition[key]);
+        }
+
+        return reduce(objKeys, checkPropertyDef, true);
     }
 
     function buildSignetDuckTypeObject(definition) {
-        return Object
-            .keys(definition)
-            .reduce(function (duckTypeObject, key) {
-                duckTypeObject[key] = definition[key].typeName;
-                return duckTypeObject;
-            }, {});
+        const objKeys = Object
+            .keys(definition);
+
+        function duckTypeReducer(duckTypeObject, key) {
+            duckTypeObject[key] = definition[key].typeName;
+            return duckTypeObject;
+        }
+
+        return reduce(objKeys, duckTypeReducer, {});
     }
 
 
     const isUndefined = signet.isTypeOf('undefined');
 
+    function buildValueConstructor(verifyValue, defaultValue) {
+        return function (newValue) {
+            return !isUndefined(newValue)
+                ? verifyValue(newValue)
+                : defaultValue;
+        }
+    }
+
     function defaultOrThrow(typeName, defaultValue) {
         const verifyValue = signet.verifyValueType(typeName);
 
-        if(isUndefined(registry[typeName]) && isUndefined(defaultValue)) {
+        if (isUndefined(registry[typeName]) && isUndefined(defaultValue)) {
             throw new Error(`Type ${typeName} must have a default value`);
         }
 
         return !isUndefined(defaultValue)
-            ? verifyValue(defaultValue)
+            ? buildValueConstructor(verifyValue, verifyValue(defaultValue))
             : undefined;
     }
 
-    function buildDataDefProperty(definition) {
-        return function (dataDefinition, key) {
-            const propertyDef = definition[key];
-            const typeName = propertyDef.typeName;
-            const verifyValue = signet.verifyValueType(typeName);
-            const defaultValue = propertyDef.defaultValue;
+    function buildDataDefProperty(definition, dataDefinition, key) {
+        const propertyDef = definition[key];
+        const typeName = propertyDef.typeName;
+        const defaultValue = propertyDef.defaultValue;
+        const propertyConstructor = propertyDef.propertyConstructor
 
-            dataDefinition[key] = {
-                typeName: typeName,
-                typeCheck: verifyValue,
-                defaultValue: defaultOrThrow(typeName, defaultValue)
-            };
+        dataDefinition[key] = {
+            typeName: typeName,
+            propertyConstructor: !isUndefined(propertyConstructor)
+                ? propertyConstructor
+                : defaultOrThrow(typeName, defaultValue)
+        };
 
-            return dataDefinition;
-        }
+        return dataDefinition;
     }
 
+    const definitionPropBuilder =
+        (definition) =>
+            (definitionName, key) =>
+                buildDataDefProperty(definition, definitionName, key);
+
     function buildDataDefinition(definition) {
-        return Object
-            .keys(definition)
-            .reduce(buildDataDefProperty(definition), {});
+        const objKeys = Object
+            .keys(definition);
+
+        return reduce(objKeys, definitionPropBuilder(definition), {});
     }
 
     function registerDuckType(definitionName, definition) {

@@ -1,12 +1,10 @@
 {
     "value1": {
         "typeName": "int",
-        "typeCheck": "Function: enforceDecorator",
-        "defaultValue": 0
+        "propertyConstructor": "Function: anonymous function"
     },
     "value2": {
         "typeName": "string",
-        "typeCheck": "Function: enforceDecorator",
-        "defaultValue": ""
+        "propertyConstructor": "Function: anonymous function"
     }
 }
