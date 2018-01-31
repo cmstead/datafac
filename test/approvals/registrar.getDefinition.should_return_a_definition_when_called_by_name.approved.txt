@@ -1,6 +1,9 @@
 {
     "test1": {
-        "typeName": "string",
+        "type": "string",
         "propertyConstructor": "Function: anonymous function"
-    }
+    },
+    "__keys": [
+        "test1"
+    ]
 }

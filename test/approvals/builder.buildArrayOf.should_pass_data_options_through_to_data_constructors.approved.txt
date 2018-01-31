@@ -1,0 +1,23 @@
+[
+    {
+        "baz": "testing 1",
+        "foo": {
+            "foo": "testing 2",
+            "bar": "I am still here."
+        }
+    },
+    {
+        "baz": "testing 1",
+        "foo": {
+            "foo": "testing 2",
+            "bar": "I am still here."
+        }
+    },
+    {
+        "baz": "testing 1",
+        "foo": {
+            "foo": "testing 2",
+            "bar": "I am still here."
+        }
+    }
+]

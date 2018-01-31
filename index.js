@@ -19,7 +19,9 @@
 
     return {
         build: builder.build,
-        register: registrar.register
+        buildArrayOf: builder.buildArrayOf,
+        register: registrar.register,
+        isRegistered: registrar.isRegistered
     };
 });
 

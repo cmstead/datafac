@@ -1,10 +1,14 @@
 {
     "value1": {
-        "typeName": "int",
+        "type": "int",
         "propertyConstructor": "Function: anonymous function"
     },
     "value2": {
-        "typeName": "string",
+        "type": "string",
         "propertyConstructor": "Function: anonymous function"
-    }
+    },
+    "__keys": [
+        "value1",
+        "value2"
+    ]
 }

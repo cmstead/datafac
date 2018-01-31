@@ -1,0 +1,6 @@
+{
+    "baz": "quux",
+    "foo": {
+        "foo": "bar"
+    }
+}

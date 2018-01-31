@@ -21,7 +21,7 @@
         isString(typeName) && signet.isType(typeName);
 
     const isPropertyDef = signet.duckTypeFactory({
-        typeName: isSignetType,
+        type: isSignetType,
         defaultValue: '*'
     });
 
@@ -49,7 +49,7 @@
             .keys(definition);
 
         function duckTypeReducer(duckTypeObject, key) {
-            duckTypeObject[key] = definition[key].typeName;
+            duckTypeObject[key] = definition[key].type;
             return duckTypeObject;
         }
 
@@ -81,12 +81,12 @@
 
     function buildDataDefProperty(definition, dataDefinition, key) {
         const propertyDef = definition[key];
-        const typeName = propertyDef.typeName;
+        const typeName = propertyDef.type;
         const defaultValue = propertyDef.defaultValue;
         const propertyConstructor = propertyDef.propertyConstructor
 
         dataDefinition[key] = {
-            typeName: typeName,
+            type: typeName,
             propertyConstructor: !isUndefined(propertyConstructor)
                 ? propertyConstructor
                 : defaultOrThrow(typeName, defaultValue)
@@ -104,7 +104,9 @@
         const objKeys = Object
             .keys(definition);
 
-        return reduce(objKeys, definitionPropBuilder(definition), {});
+        const dataDefinition = reduce(objKeys, definitionPropBuilder(definition), {});
+        dataDefinition.__keys = Object.keys(dataDefinition);
+        return dataDefinition;
     }
 
     function registerDuckType(definitionName, definition) {

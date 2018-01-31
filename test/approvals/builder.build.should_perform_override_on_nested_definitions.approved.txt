@@ -1,0 +1,6 @@
+{
+    "baz": "testing 1",
+    "foo": {
+        "foo": "testing 2"
+    }
+}

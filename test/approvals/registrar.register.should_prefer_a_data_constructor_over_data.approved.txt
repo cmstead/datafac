@@ -1,6 +1,9 @@
 {
     "value1": {
-        "typeName": "string",
+        "type": "string",
         "propertyConstructor": "Function: propertyConstructor"
-    }
+    },
+    "__keys": [
+        "value1"
+    ]
 }

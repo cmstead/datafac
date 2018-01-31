@@ -21,11 +21,11 @@ describe('registrar', function () {
         it('should register a type internally', function () {
             const dataDef = {
                 value1: {
-                    typeName: 'int',
+                    type: 'int',
                     defaultValue: 0
                 },
                 value2: {
-                    typeName: 'string',
+                    type: 'string',
                     defaultValue: ''
                 }
             };
@@ -39,7 +39,7 @@ describe('registrar', function () {
         it('should prefer a data constructor over data', function() {
             const dataDef = {
                 value1: {
-                    typeName: 'string',
+                    type: 'string',
                     propertyConstructor: () => 'I am a string',
                     defaultValue: 'oh noes!!!'
                 }
@@ -66,7 +66,7 @@ describe('registrar', function () {
         it('should throw an error if the data definition is already registered', function() {
             const dataDef = {
                 value: {
-                    typeName: 'string',
+                    type: 'string',
                     defaultValue: ''
                 }
             };
@@ -82,7 +82,7 @@ describe('registrar', function () {
         it('should throw an error if a default value is unacceptable', function() {
             const dataDef = {
                 test: {
-                    typeName: 'string',
+                    type: 'string',
                     defaultValue: 10
                 }
             };
@@ -93,7 +93,7 @@ describe('registrar', function () {
         it('should throw an error if type is not registered and has no default value', function() {
             const dataDef = {
                 test: {
-                    typeName: 'string'
+                    type: 'string'
                 }
             };
 
@@ -107,7 +107,7 @@ describe('registrar', function () {
         it('should return a definition when called by name', function() {
             registrar.register('testType', {
                 test1: {
-                    typeName: 'string',
+                    type: 'string',
                     defaultValue: '' 
                 }
             });
