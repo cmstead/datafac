@@ -1,7 +1,7 @@
 {
   "name": "datafac",
   "version": "1.0.0",
-  "description": "A powerful data factory build atop the Signet type system",
+  "description": "The dead simple system to keep your code and data in sync",
   "main": "index.js",
   "scripts": {
     "test": "gulp test"

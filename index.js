@@ -10,8 +10,10 @@
 
     if (isNode) {
         module.exports = datafacBuilder;
+    } else if(typeof window.signet === 'undefined') {
+        throw new Error('Datafac require signet to run, please be sure to include signet in your client-side project.');
     } else {
-        window.datafacBuilder = datafacBuilder;
+        window.datafacBuilder = datafacBuilder(window.signet);
     }
 
 })(function (builder, registrar) {
@@ -20,8 +22,7 @@
     return {
         build: builder.build,
         buildArrayOf: builder.buildArrayOf,
-        register: registrar.register,
-        isRegistered: registrar.isRegistered
+        register: registrar.register
     };
 });
 

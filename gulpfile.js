@@ -9,9 +9,7 @@ const mocha = require('gulp-mocha');
 
 const sourceFiles = [
     'bin/**/*.js',
-    'signet-types.js',
     'index.js',
-    '!node_modules/**'
 ];
 
 const testFiles = [
@@ -19,7 +17,7 @@ const testFiles = [
 ];
 
 gulp.task('compile', () => {
-    return gulp.src('./index.js')
+    return gulp.src(sourceFiles)
         .pipe(babel({
             presets: ['env']
         }))

@@ -22,8 +22,6 @@ describe('datafac', function () {
             }
         });
 
-        assert.isTrue(datafac.isRegistered('foo'));
-
         this.verify(prettyJson(datafac.build('foo')));
     });
 
